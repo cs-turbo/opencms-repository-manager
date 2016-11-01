@@ -1,0 +1,44 @@
+apply plugin: 'java'
+
+sourceCompatibility = 1.7
+version = '1.0'
+buildDir = 'target'
+
+
+def tomcat_update_target='/var/lib/tomcat8/webapps/opencms/WEB-INF/lib/';
+
+repositories {
+    mavenLocal()
+    jcenter()
+    mavenCentral()
+    flatDir {
+        dirs '/var/lib/tomcat8/webapps/opencms/WEB-INF/lib/'
+    }
+    maven {
+        url "http://maven.vaadin.com/vaadin-addons"
+    }
+}
+
+dependencies {
+    compile group: 'org.opencms', name: 'opencms'
+    compile group: 'com.vaadin', name: 'vaadin-shared', version:'7.6.3'
+    compile group: 'com.vaadin', name: 'vaadin-server', version:'7.6.3'
+    compile group: 'org.jsoup', name: 'jsoup', version: '1.8.3'
+    compile group: 'commons-io', name: 'commons-io', version: '2.4'
+}
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'OpenCms Repository Manager', 'Implementation-Version': version
+    }
+
+    doLast {
+        if (file(tomcat_update_target).exists()){
+            println "copying ${rootProject.name}-1.0.jar to ${tomcat_update_target}"
+            copySpec {
+                from  "${project.buildDir}/libs/${rootProject.name}-1.0.jar"
+                into tomcat_update_target
+            }
+        }
+    }
+}
