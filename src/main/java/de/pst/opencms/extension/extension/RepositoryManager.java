@@ -2,6 +2,7 @@ package de.pst.opencms.extension.extension;
 
 import com.vaadin.ui.*;
 import de.pst.opencms.extension.listener.FetchClickListener;
+import de.pst.opencms.extension.property.BundleHandler;
 import de.pst.opencms.extension.view.DropdownHandler;
 import de.pst.opencms.extension.view.TableHandler;
 import org.opencms.ui.apps.A_CmsWorkplaceApp;
@@ -32,7 +33,7 @@ public class RepositoryManager extends A_CmsWorkplaceApp {
         DropdownHandler dropdownHandler = new DropdownHandler();
         ComboBox repoDropdown = dropdownHandler.get();
 
-        Button fetchRepoButton = new Button("Fetch");
+        Button fetchRepoButton = new Button(BundleHandler.get("button.fetch"));
         fetchRepoButton.setVisible(true);
         fetchRepoButton.setWidth("20%");
 

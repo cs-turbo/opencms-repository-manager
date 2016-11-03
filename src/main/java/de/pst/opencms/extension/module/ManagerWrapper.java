@@ -43,8 +43,6 @@ public class ManagerWrapper {
             for (CmsResource res : resources) {
                 CmsXmlContent xmlContent = CmsXmlContentFactory.unmarshal(cms, cms.readFile(res));
 
-                //System.out.println(xmlContent.getValues(Locale.ENGLISH)+"");
-
                 String moduleTitle = xmlContent.getStringValue(cms, "Title", Locale.ENGLISH);
                 String moduleUrl = xmlContent.getStringValue(cms, "Link", Locale.ENGLISH);
 
