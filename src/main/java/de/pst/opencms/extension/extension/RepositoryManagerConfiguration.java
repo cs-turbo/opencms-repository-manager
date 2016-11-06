@@ -2,12 +2,19 @@ package de.pst.opencms.extension.extension;
 
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
+import org.opencms.db.CmsDbContext;
+import org.opencms.db.CmsDbContextFactory;
+import org.opencms.file.CmsGroup;
 import org.opencms.file.CmsObject;
+import org.opencms.file.CmsUser;
+import org.opencms.main.CmsException;
+import org.opencms.main.OpenCms;
 import org.opencms.ui.apps.CmsAppVisibilityStatus;
 import org.opencms.ui.apps.I_CmsAppButtonProvider;
 import org.opencms.ui.apps.I_CmsWorkplaceApp;
 import org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration;
 
+import java.util.List;
 import java.util.Locale;
 
 public class RepositoryManagerConfiguration implements I_CmsWorkplaceAppConfiguration {
@@ -58,6 +65,16 @@ public class RepositoryManagerConfiguration implements I_CmsWorkplaceAppConfigur
 
     @Override
     public CmsAppVisibilityStatus getVisibility(CmsObject cmsObject) {
-        return new CmsAppVisibilityStatus(true, true, null);
+        try {
+            CmsUser currentUser = cmsObject.getRequestContext().getCurrentUser();
+            CmsGroup adminGroup = cmsObject.readGroup("Administrators");
+            List<CmsGroup> groupsOfUser = cmsObject.getGroupsOfUser(currentUser.getName(), Boolean.FALSE);
+            if(groupsOfUser.contains(adminGroup)){
+                return new CmsAppVisibilityStatus(true, true, null);
+            }
+        } catch (CmsException e) {
+            e.printStackTrace();
+        }
+        return new CmsAppVisibilityStatus(true, false, null);
     }
 }

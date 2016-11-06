@@ -2,25 +2,20 @@ package de.pst.opencms.extension.module;
 
 import de.pst.opencms.extension.entity.RepoEntry;
 import de.pst.opencms.extension.property.PropertyHandler;
-import org.opencms.file.CmsFile;
-import org.opencms.file.CmsFolder;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.main.CmsException;
 import org.opencms.main.OpenCms;
 import org.opencms.module.CmsModule;
 import org.opencms.module.CmsModuleManager;
-import org.opencms.search.solr.CmsSolrIndex;
-import org.opencms.search.solr.CmsSolrQuery;
-import org.opencms.search.solr.CmsSolrResultList;
 import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.content.CmsXmlContentFactory;
 
 import java.util.*;
 
-public class ManagerWrapper {
+public class ModuleWrapper {
     static {
-        ManagerWrapper._manager = OpenCms.getModuleManager();
+        ModuleWrapper._manager = OpenCms.getModuleManager();
     }
 
     private static CmsModuleManager _manager;

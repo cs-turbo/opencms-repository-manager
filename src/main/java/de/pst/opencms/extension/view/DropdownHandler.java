@@ -2,7 +2,7 @@ package de.pst.opencms.extension.view;
 
 import com.vaadin.ui.ComboBox;
 import de.pst.opencms.extension.entity.RepoEntry;
-import de.pst.opencms.extension.module.ManagerWrapper;
+import de.pst.opencms.extension.module.ModuleWrapper;
 
 import java.util.Collections;
 import java.util.List;
@@ -17,7 +17,7 @@ public class DropdownHandler {
 
     private void init(){
         dropdown = new ComboBox();
-        List<RepoEntry> repoEntries = ManagerWrapper.getRepoResources();
+        List<RepoEntry> repoEntries = ModuleWrapper.getRepoResources();
         Collections.reverse(repoEntries);
         for(RepoEntry entry : repoEntries){
             dropdown.addItem(entry);

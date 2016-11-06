@@ -20,7 +20,7 @@ public class ViewHandler {
         layout.setMargin(true);
 
         Component dropdownLayout = getDropdownLayout();
-        layout.addComponent(getDropdownLayout());
+        layout.addComponent(dropdownLayout);
 
         Table table = tableHandler.get();
         layout.addComponent(table);

@@ -6,7 +6,7 @@ import de.pst.opencms.extension.entity.RemoteModule;
 import de.pst.opencms.extension.entity.RepoEntry;
 import de.pst.opencms.extension.listener.InstallClickListener;
 import de.pst.opencms.extension.listener.UninstallClickListener;
-import de.pst.opencms.extension.module.ManagerWrapper;
+import de.pst.opencms.extension.module.ModuleWrapper;
 import de.pst.opencms.extension.property.BundleHandler;
 import de.pst.opencms.extension.property.PropertyHandler;
 import de.pst.opencms.extension.repository.RepositoryHandler;
@@ -58,7 +58,7 @@ public class TableHandler {
         String moduleName = FilenameUtils.removeExtension(module.getName());
         moduleName = moduleName.replaceAll("_"+module.getVersion(),"");
 
-        boolean isInstalled = ManagerWrapper.isInstalled(moduleName);
+        boolean isInstalled = ModuleWrapper.isInstalled(moduleName);
 
         CssLayout buttonsLayout = new CssLayout();
         Button installButton = new Button(BundleHandler.get("button.install"));
