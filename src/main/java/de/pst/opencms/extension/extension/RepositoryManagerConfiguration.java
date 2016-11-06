@@ -2,6 +2,7 @@ package de.pst.opencms.extension.extension;
 
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
+import de.pst.opencms.extension.property.BundleHandler;
 import org.opencms.db.CmsDbContext;
 import org.opencms.db.CmsDbContextFactory;
 import org.opencms.file.CmsGroup;
@@ -35,7 +36,7 @@ public class RepositoryManagerConfiguration implements I_CmsWorkplaceAppConfigur
 
     @Override
     public String getHelpText(Locale locale) {
-        return "Module Repository";
+        return BundleHandler.get("extension.helptext");
     }
 
     @Override
@@ -45,12 +46,12 @@ public class RepositoryManagerConfiguration implements I_CmsWorkplaceAppConfigur
 
     @Override
     public String getId() {
-        return "RepositoryManager";
+        return RepositoryManagerCategory.ID;
     }
 
     @Override
     public String getName(Locale locale) {
-        return "Module Repository";
+        return BundleHandler.get("extension.name");
     }
 
     @Override

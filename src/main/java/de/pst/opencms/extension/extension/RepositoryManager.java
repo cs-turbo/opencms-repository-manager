@@ -17,7 +17,7 @@ public class RepositoryManager extends A_CmsWorkplaceApp {
     @Override
     protected LinkedHashMap<String, String> getBreadCrumbForState(String s) {
         LinkedHashMap<String, String> crumbs = new LinkedHashMap<String, String>();
-        crumbs.put("->", "Module Repository");
+        crumbs.put("->", BundleHandler.get("extension.name"));
         return crumbs;
     }
 
