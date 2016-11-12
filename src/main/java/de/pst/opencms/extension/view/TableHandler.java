@@ -19,10 +19,7 @@ public class TableHandler {
     private static Table table;
     private static List<RemoteModule> cache;
 
-    public TableHandler(){
-    }
-
-
+    public TableHandler(){}
 
     private void init(){
         table = new Table(BundleHandler.get("table.label"));

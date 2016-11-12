@@ -2,6 +2,7 @@ package de.pst.opencms.extension.listener;
 
 import com.vaadin.server.Page;
 import com.vaadin.ui.Button;
+import de.pst.opencms.extension.cms.CmsObjectWrapper;
 import de.pst.opencms.extension.entity.RemoteModule;
 import de.pst.opencms.extension.property.PropertyHandler;
 import de.pst.opencms.extension.view.TableHandler;
@@ -25,11 +26,8 @@ public class UninstallClickListener implements Button.ClickListener {
     public void buttonClick(Button.ClickEvent event) {
         String moduleName = FilenameUtils.removeExtension(module.getName());
         try {
-            CmsObject cms = OpenCms.initCmsObject(new CmsDefaultUsers().getUserGuest());
-            cms.loginUser(PropertyHandler.get("de.pst.opencms.repository.user"),PropertyHandler.get("de.pst.opencms.repository.password"));
-
-            CmsLogReport report = new CmsLogReport(Locale.GERMAN,UninstallClickListener.class);
-            OpenCms.getModuleManager().deleteModule(cms,moduleName,false,report);
+            CmsLogReport report = new CmsLogReport(CmsObjectWrapper.getLocale(),UninstallClickListener.class);
+            OpenCms.getModuleManager().deleteModule(CmsObjectWrapper.getCmsObject(),moduleName,false,report);
 
             Page.getCurrent().reload();
 

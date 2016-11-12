@@ -2,14 +2,13 @@ package de.pst.opencms.extension.extension;
 
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
+import de.pst.opencms.extension.cms.CmsObjectWrapper;
 import de.pst.opencms.extension.property.BundleHandler;
-import org.opencms.db.CmsDbContext;
-import org.opencms.db.CmsDbContextFactory;
+import de.pst.opencms.extension.property.PropertyHandler;
 import org.opencms.file.CmsGroup;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsUser;
 import org.opencms.main.CmsException;
-import org.opencms.main.OpenCms;
 import org.opencms.ui.apps.CmsAppVisibilityStatus;
 import org.opencms.ui.apps.I_CmsAppButtonProvider;
 import org.opencms.ui.apps.I_CmsWorkplaceApp;
@@ -68,9 +67,13 @@ public class RepositoryManagerConfiguration implements I_CmsWorkplaceAppConfigur
     public CmsAppVisibilityStatus getVisibility(CmsObject cmsObject) {
         try {
             CmsUser currentUser = cmsObject.getRequestContext().getCurrentUser();
-            CmsGroup adminGroup = cmsObject.readGroup("Administrators");
+            CmsGroup adminGroup = cmsObject.readGroup(PropertyHandler.get("de.pst.opencms.repository.group.admin.name"));
             List<CmsGroup> groupsOfUser = cmsObject.getGroupsOfUser(currentUser.getName(), Boolean.FALSE);
             if(groupsOfUser.contains(adminGroup)){
+                // Setting the extensions global objects
+                CmsObjectWrapper.setCmsObject(cmsObject);
+                CmsObjectWrapper.setLocale(cmsObject.getRequestContext().getLocale());
+
                 return new CmsAppVisibilityStatus(true, true, null);
             }
         } catch (CmsException e) {

@@ -1,5 +1,6 @@
 package de.pst.opencms.extension.module;
 
+import de.pst.opencms.extension.cms.CmsObjectWrapper;
 import de.pst.opencms.extension.entity.RepoEntry;
 import de.pst.opencms.extension.property.PropertyHandler;
 import org.opencms.file.CmsObject;
@@ -20,6 +21,8 @@ public class ModuleWrapper {
 
     private static CmsModuleManager _manager;
 
+    private static final String REPO_PATH_FORMAT = "/system/modules/%s/repositories";
+
     public static CmsModule getRepoModule(){
         CmsModule module = _manager.getModule(PropertyHandler.get("de.pst.opencms.repository.module.name"));
         return module;
@@ -30,16 +33,21 @@ public class ModuleWrapper {
         HashMap<String,String> repos = new HashMap<String,String>();
 
         try {
-            CmsObject cms = OpenCms.initCmsObject("Guest");
-            cms.loginUser(PropertyHandler.get("de.pst.opencms.repository.user"),PropertyHandler.get("de.pst.opencms.repository.password"));
+            CmsObject cms = CmsObjectWrapper.getCmsObject();
 
-            List<CmsResource> resources = cms.getFilesInFolder("/system/modules/" + PropertyHandler.get("de.pst.opencms.repository.module.name") + "/repositories");
+            List<CmsResource> resources = cms.getFilesInFolder(String.format(REPO_PATH_FORMAT,PropertyHandler.get("de.pst.opencms.repository.module.name")));
 
             for (CmsResource res : resources) {
                 CmsXmlContent xmlContent = CmsXmlContentFactory.unmarshal(cms, cms.readFile(res));
 
-                String moduleTitle = xmlContent.getStringValue(cms, "Title", Locale.ENGLISH);
-                String moduleUrl = xmlContent.getStringValue(cms, "Link", Locale.ENGLISH);
+                Locale localeToUse = CmsObjectWrapper.getLocale();
+
+                if(!hasCurrentLocale(xmlContent.getLocales())){
+                    localeToUse = xmlContent.getLocales().get(0);
+                }
+
+                String moduleTitle = xmlContent.getStringValue(cms, PropertyHandler.get("de.pst.opencms.repository.xml.title"), localeToUse);
+                String moduleUrl = xmlContent.getStringValue(cms, PropertyHandler.get("de.pst.opencms.repository.xml.link"), localeToUse);
 
                 repos.put(moduleTitle, moduleUrl);
             }
@@ -48,6 +56,10 @@ public class ModuleWrapper {
         }
 
         return repos;
+    }
+
+    private static boolean hasCurrentLocale(List<Locale> locales){
+        return locales.contains(CmsObjectWrapper.getLocale());
     }
 
     public static List<RepoEntry> getRepoResources(){

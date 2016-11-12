@@ -33,7 +33,7 @@ public class InstallClickListener implements ClickListener {
         String moduleName = FilenameUtils.removeExtension(module.getName());
         RepoEntry repo = (RepoEntry) dropdownHandler.get().getValue();
         if(repo != null) {
-            String moduleUrl = repo.getUrl() + module.getModuleUrl();
+            String moduleUrl = String.format("%s%s",repo.getUrl(),module.getModuleUrl());
 
             try {
                 byte[] modCont = IOUtils.toByteArray(new URL(moduleUrl));
