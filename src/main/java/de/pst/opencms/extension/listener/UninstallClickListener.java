@@ -4,6 +4,7 @@ import com.vaadin.server.Page;
 import com.vaadin.ui.Button;
 import de.pst.opencms.extension.cms.CmsObjectWrapper;
 import de.pst.opencms.extension.entity.RemoteModule;
+import de.pst.opencms.extension.module.ModuleHandler;
 import de.pst.opencms.extension.property.PropertyHandler;
 import de.pst.opencms.extension.view.TableHandler;
 import org.apache.commons.io.FilenameUtils;
@@ -24,18 +25,11 @@ public class UninstallClickListener implements Button.ClickListener {
 
     @Override
     public void buttonClick(Button.ClickEvent event) {
-        String moduleName = FilenameUtils.removeExtension(module.getName());
-        try {
-            CmsLogReport report = new CmsLogReport(CmsObjectWrapper.getLocale(),UninstallClickListener.class);
-            OpenCms.getModuleManager().deleteModule(CmsObjectWrapper.getCmsObject(),moduleName,false,report);
+        ModuleHandler.uninstallModule(module);
 
-            Page.getCurrent().reload();
+        Page.getCurrent().reload();
 
-            TableHandler handler = new TableHandler();
-            handler.refresh();
-
-        } catch (CmsException e) {
-            e.printStackTrace();
-        }
+        TableHandler handler = new TableHandler();
+        handler.refresh();
     }
 }
