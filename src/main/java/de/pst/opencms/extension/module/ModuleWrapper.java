@@ -2,6 +2,7 @@ package de.pst.opencms.extension.module;
 
 import de.pst.opencms.extension.cms.CmsObjectWrapper;
 import de.pst.opencms.extension.entity.RepoEntry;
+import de.pst.opencms.extension.log.Logger;
 import de.pst.opencms.extension.property.PropertyHandler;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
@@ -52,7 +53,8 @@ public class ModuleWrapper {
                 repos.put(moduleTitle, moduleUrl);
             }
         } catch (CmsException e) {
-            e.printStackTrace();
+            Logger.forClass(ModuleWrapper.class);
+            Logger.error(String.format("Module resources couldn't be retrieved: %s",e.getMessage()));
         }
 
         return repos;

@@ -3,6 +3,7 @@ package de.pst.opencms.extension.extension;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
 import de.pst.opencms.extension.cms.CmsObjectWrapper;
+import de.pst.opencms.extension.log.Logger;
 import de.pst.opencms.extension.property.BundleHandler;
 import de.pst.opencms.extension.property.PropertyHandler;
 import org.opencms.file.CmsGroup;
@@ -77,7 +78,8 @@ public class RepositoryManagerConfiguration implements I_CmsWorkplaceAppConfigur
                 return new CmsAppVisibilityStatus(true, true, null);
             }
         } catch (CmsException e) {
-            e.printStackTrace();
+            Logger.forClass(RepositoryManagerConfiguration.class);
+            Logger.error(String.format("User couldn't be accessed: %s",e.getMessage()));
         }
         return new CmsAppVisibilityStatus(true, false, null);
     }
